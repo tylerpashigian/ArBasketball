@@ -16,6 +16,7 @@ import {
   ViroSphere,
   ViroSpotLight,
   ViroQuad,
+  ViroBox,
 } from 'react-viro';
 
 var createReactClass = require('create-react-class');
@@ -42,43 +43,8 @@ var ARCarDemo = createReactClass({
         <ViroLightingEnvironment source={require('./res/tesla/garage_1k.hdr')}/>
 
         <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
-          <ViroNode scale={[0, 0, 0]} transformBehaviors={["billboardY"]} animation={{name:this.state.animName, run:this.state.playAnim,}}>
-            <ViroSphere materials={["white_sphere"]}
-              heightSegmentCount={20} widthSegmentCount={20} radius={.03}
-              position={[-.2, .25, 0]}
-              onClick={this._selectWhite}
-              animation={{name:"tapAnimation", run:this.state.tapWhite, onFinish:this._animateFinished}}
-              shadowCastingBitMask={0} />
 
-            <ViroSphere materials={["blue_sphere"]}
-              heightSegmentCount={20} widthSegmentCount={20} radius={.03}
-              position={[-.1, .25, 0]}
-              onClick={this._selectBlue}
-              animation={{name:"tapAnimation", run:this.state.tapBlue, onFinish:this._animateFinished}}
-              shadowCastingBitMask={0} />
-
-            <ViroSphere materials={["grey_sphere"]}
-              heightSegmentCount={20} widthSegmentCount={20} radius={.03}
-              position={[0, .25, 0]}
-              onClick={this._selectGrey}
-              animation={{name:"tapAnimation", run:this.state.tapGrey, onFinish:this._animateFinished}}
-              shadowCastingBitMask={0} />
-
-            <ViroSphere materials={["red_sphere"]}
-              heightSegmentCount={20} widthSegmentCount={20} radius={.03}
-              position={[.1, .25, 0]}
-              onClick={this._selectRed}
-              animation={{name:"tapAnimation", run:this.state.tapRed, onFinish:this._animateFinished}}
-              shadowCastingBitMask={0} />
-
-            <ViroSphere materials={["yellow_sphere"]}
-              heightSegmentCount={20} widthSegmentCount={20} radius={.03}
-              position={[.2, .25, 0]}
-              onClick={this._selectYellow}
-              animation={{name:"tapAnimation", run:this.state.tapYellow, onFinish:this._animateFinished}}
-              shadowCastingBitMask={0}/>
-          </ViroNode>
-
+          {/* A Tesla Model Object
           <Viro3DObject
             scale={[0, 0, 0]}
             source={require('./res/tesla/object_car.obj')}
@@ -88,6 +54,7 @@ var ARCarDemo = createReactClass({
             materials={this.state.texture}
             onClick={this._toggleButtons}
             animation={{name:"scaleCar", run:this.state.animateCar,}} />
+           */}
 
           <ViroSpotLight
             innerAngle={5}
@@ -101,11 +68,83 @@ var ARCarDemo = createReactClass({
             shadowFarZ={7}
             shadowOpacity={.7} />
 
-          <ViroQuad
-            rotation={[-90, 0, 0]}
-            position={[0, -0.001, 0]}
-            materials={'ground'}
-            arShadowReceiver={true} />
+
+            <ViroBox
+              position={[0,1.5,0]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 0, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[.707/10,1.5,1.582/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 45, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[2.29/10,1.5,2.29/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 90, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[3.871/10,1.5,1.582/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 135, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[4.578/10,1.5,0/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 180, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[3.871/10,1.5,-1.582/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 225, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[2.29/10,1.5,-2.29/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 270, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+
+            {/* Box representing the backboard. */}
+            <ViroBox
+              rotation={[90, 0, 90]}
+              scale={[.3,.3,.3]}
+              materials={'whiteBox'}
+              physicsBody={{ type:'Static', restitution:0.25 }}
+              height={1} width={.25} length={2}
+              />
+
+            <ViroBox
+              position={[.707/10,1.5,-1.582/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 315, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+
+
 
         </ViroARImageMarker>
       </ViroARScene>
@@ -173,6 +212,12 @@ ViroMaterials.createMaterials({
     metalnessTexture: require('./res/tesla/object_car_main_Metallic.png'),
     roughnessTexture: require('./res/tesla/object_car_main_Roughness.png'),
   },
+  whiteBox: {
+    diffuseColor: "#FFFFFF"
+  },
+  orange: {
+    diffuseColor: "#ff8d00"
+  },
   blue: {
     lightingModel: "PBR",
     diffuseTexture: require('./res/tesla/object_car_main_Base_Color_blue.png'),
@@ -222,7 +267,7 @@ ViroMaterials.createMaterials({
 ViroARTrackingTargets.createTargets({
   logo : {
     source : require('./res/bulls.jpg'),
-    orientation : "Right",
+    orientation : "Up",
     physicalWidth : 0.165 // real world width in meters
   }
 });
