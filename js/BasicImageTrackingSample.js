@@ -20,11 +20,14 @@ import {
 } from 'react-viro';
 
 var createReactClass = require('create-react-class');
-
+var CONTROLLER_PUSH = 1;
+var CONTROLLER_GRIP = 2;
+var CONTROLLER_PULL = 3;
 
 var ARCarDemo = createReactClass({
   getInitialState() {
     return {
+      controllerConfig:CONTROLLER_GRIP,
       texture: "white",
       playAnim: false,
       animateCar: false,
@@ -37,6 +40,9 @@ var ARCarDemo = createReactClass({
   },
 
   render: function() {
+
+    console.log("Rendering the app");
+
     return (
       <ViroARScene>
 
@@ -68,64 +74,6 @@ var ARCarDemo = createReactClass({
             shadowFarZ={7}
             shadowOpacity={.7} />
 
-
-            <ViroBox
-              position={[0,1.5,0]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 0, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[.707/10,1.5,1.582/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 45, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[2.29/10,1.5,2.29/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 90, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[3.871/10,1.5,1.582/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 135, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[4.578/10,1.5,0/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 180, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[3.871/10,1.5,-1.582/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 225, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[2.29/10,1.5,-2.29/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 270, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-
             {/* Box representing the backboard. */}
             <ViroBox
               rotation={[90, 0, 90]}
@@ -135,8 +83,75 @@ var ARCarDemo = createReactClass({
               height={1} width={.25} length={2}
               />
 
+            {/* Hoop representing basketball hoop on 3D printed object.
+            <Viro3DObject
+                source={require("./res/physics/untitled.obj")}
+                resources={[require('./res/physics/untitled.mtl'),]}
+                highAccuracyEvents={true}
+                position={[0, 0, 0]}
+                scale={[.2, .2, .2]}
+                rotation={[0, 0, 0]}
+                type="OBJ"/>
+             */}
+
             <ViroBox
-              position={[.707/10,1.5,-1.582/10]}
+              position={[0,0,0]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 0, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[.707/10,0,1.582/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 45, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[2.29/10,0,2.29/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 90, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[3.871/10,0,1.582/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 135, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[4.578/10,0,0/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 180, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[3.871/10,0,-1.582/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 225, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[2.29/10,0,-2.29/10]}
+              scale={[.1,.1,.1]}
+              rotation={[0, 270, 0]}
+              materials={'orange'}
+              physicsBody={{ type:'Static', restitution:0.75 }}
+              height={0.25} width={.25} length={2}
+              />
+            <ViroBox
+              position={[.707/10,0,-1.582/10]}
               scale={[.1,.1,.1]}
               rotation={[0, 315, 0]}
               materials={'orange'}
@@ -145,14 +160,35 @@ var ARCarDemo = createReactClass({
               />
 
 
+            {/* A Single Ball we have spawned in our scene */}
+            <Viro3DObject ref={(obj)=>{this.ball = obj}}
+                          source={require('./res/physics/object_basketball_pbr.vrx')}
+                          scale={[0.5, 0.5, 0.5]}
+                          position={[0, 0, 0]}
+                          rotation={[0, 0, 0]}
+                          resources={[require('./res/physics/blinn1_Base_Color.png'),
+                                      require('./res/physics/blinn1_Metallic.png'),
+                                      require('./res/physics/blinn1_Roughness.png'),
+                                      require('./res/physics/blinn1_Normal_OpenGL.png')]}
+                          type="VRX"
+                          physicsBody={this.ballProperties}
+                          viroTag="BallTag"
+                          onClick={this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined}
+                          onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{} : undefined}/>
+
+
 
         </ViroARImageMarker>
       </ViroARScene>
     );
   },
   _onAnchorFound() {
+
+    console.log("Anchor found");
+
     this.setState({
       animateCar: true,
+      pauseUpdates: true,
     })
   },
   _toggleButtons() {
@@ -200,6 +236,49 @@ var ARCarDemo = createReactClass({
       tapYellow: false,
     })
   },
+
+  /*
+   Push against the ball with an impulse force, at the onClicked location, and
+   with a force direction originating from the controller (controller forward).
+   */
+  onItemPushImpulse(itemTag){
+    return (clickedPos, source) =>{
+      this.controllerRef.getControllerForwardAsync().then((forward)=>{
+        var pushStrength = 3;
+        var pushImpulse = [forward[0]*pushStrength, forward[1]*pushStrength, forward[2]*pushStrength];
+        this.ball.getTransformAsync().then((transform) => {
+          var pos = transform.position;
+          var pushPosition = [clickedPos[0] - pos[0], clickedPos[1] - pos[1], clickedPos[2] - pos[2]];
+          this.ball.applyImpulse(pushImpulse, pushPosition);
+        });
+      });
+    }
+  },
+
+  /*
+   Pull the ball with a constant force towards the camera.
+   */
+  onItemPullForce(itemTag){
+    return (state, position, source) => {
+      this.sceneRef.getCameraOrientationAsync().then((camTransform)=>{
+        this.ball.getTransformAsync().then((ballTransform)=>{
+          var ballPos = ballTransform.position;
+          var camPos = camTransform.position;
+          var pullVec = [camPos[0] - ballPos[0], camPos[1] - ballPos[1], camPos[2] - ballPos[2]];
+
+          var pullStrength = 5; // Force multiplier.
+          var pullStrengthVec = [pullVec[0]*pullStrength, pullVec[1]*pullStrength, pullVec[2]*pullStrength];  // Force in newtons
+          if (state == 1) {
+            var phyzProps = {force:{value:pullStrengthVec}, type:'Dynamic', mass:4, enabled:true, useGravity:true, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
+          } else {
+            var phyzProps = {type:'Dynamic', mass:4, enabled:true, useGravity:true, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
+          }
+          this.ball.setNativeProps({"physicsBody":phyzProps});
+        });
+      });
+    }
+  },
+
 });
 
 ViroMaterials.createMaterials({
