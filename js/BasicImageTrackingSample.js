@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import InvisibleHoop from './InvisibleHoop.js'
 
 import {StyleSheet} from 'react-native';
 
@@ -26,6 +27,7 @@ var CONTROLLER_PULL = 3;
 
 var ARCarDemo = createReactClass({
   getInitialState() {
+    this.ballProperties = {friction:0.6, type:'Dynamic', mass:4, enabled:true, useGravity:false, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
     return {
       controllerConfig:CONTROLLER_GRIP,
       texture: "white",
@@ -41,14 +43,14 @@ var ARCarDemo = createReactClass({
 
   render: function() {
 
-    console.log("Rendering the app");
+    console.log(this.ballProperties);
 
     return (
-      <ViroARScene>
+      <ViroARScene physicsWorld={{ gravity:[0,0,-9.81], drawBounds:this.state.showCollisionBox }} ref={(component)=>{this.sceneRef = component}}>
 
         <ViroLightingEnvironment source={require('./res/tesla/garage_1k.hdr')}/>
 
-        <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
+        <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} pauseUpdates={true}>
 
           {/* A Tesla Model Object
           <Viro3DObject
@@ -74,7 +76,7 @@ var ARCarDemo = createReactClass({
             shadowFarZ={7}
             shadowOpacity={.7} />
 
-            {/* Box representing the backboard. */}
+            {/* Box representing the backboard.
             <ViroBox
               rotation={[90, 0, 90]}
               scale={[.3,.3,.3]}
@@ -82,6 +84,7 @@ var ARCarDemo = createReactClass({
               physicsBody={{ type:'Static', restitution:0.25 }}
               height={1} width={.25} length={2}
               />
+             */}
 
             {/* Hoop representing basketball hoop on 3D printed object.
             <Viro3DObject
@@ -94,70 +97,74 @@ var ARCarDemo = createReactClass({
                 type="OBJ"/>
              */}
 
-            <ViroBox
-              position={[0,0,0]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 0, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[.707/10,0,1.582/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 45, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[2.29/10,0,2.29/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 90, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[3.871/10,0,1.582/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 135, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[4.578/10,0,0/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 180, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[3.871/10,0,-1.582/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 225, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[2.29/10,0,-2.29/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 270, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
-            <ViroBox
-              position={[.707/10,0,-1.582/10]}
-              scale={[.1,.1,.1]}
-              rotation={[0, 315, 0]}
-              materials={'orange'}
-              physicsBody={{ type:'Static', restitution:0.75 }}
-              height={0.25} width={.25} length={2}
-              />
+             <ViroBox
+               position={[0,0,0]}
+               scale={[.1,.1,.1]}
+               rotation={[90, 90, 90]}
+               materials={'orange'}
+               physicsBody={{ type:'Static', restitution:0.75 }}
+               height={0.25} width={.25} length={2}
+               />
+             <ViroBox
+               position={[-1.582/10,.707/10,0]}
+               scale={[.1,.1,.1]}
+               rotation={[90, 90, 45]}
+               materials={'orange'}
+               physicsBody={{ type:'Static', restitution:0.75 }}
+               height={0.25} width={.25} length={2}
+               />
+
+
+             <ViroBox
+               position={[2.29/10,0,2.29/10]}
+               scale={[.1,.1,.1]}
+               rotation={[90, 90, 0]}
+               materials={'orange'}
+               physicsBody={{ type:'Static', restitution:0.75 }}
+               height={0.25} width={.25} length={2}
+               />
+             <ViroBox
+               position={[3.871/10,0,1.582/10]}
+               scale={[.1,.1,.1]}
+               rotation={[90, 90, 135]}
+               materials={'orange'}
+               physicsBody={{ type:'Static', restitution:0.75 }}
+               height={0.25} width={.25} length={2}
+               />
+             {/*
+             <ViroBox
+               position={[4.578/10,0,0/10]}
+               scale={[.1,.1,.1]}
+               rotation={[0, 180, 0]}
+               materials={'orange'}
+               physicsBody={{ type:'Static', restitution:0.75 }}
+               height={0.25} width={.25} length={2}
+               />
+             <ViroBox
+               position={[3.871/10,0,-1.582/10]}
+               scale={[.1,.1,.1]}
+               rotation={[0, 225, 0]}
+               materials={'orange'}
+               physicsBody={{ type:'Static', restitution:0.75 }}
+               height={0.25} width={.25} length={2}
+               />
+             <ViroBox
+               position={[2.29/10,0,-2.29/10]}
+               scale={[.1,.1,.1]}
+               rotation={[0, 270, 0]}
+               materials={'orange'}
+               physicsBody={{ type:'Static', restitution:0.75 }}
+               height={0.25} width={.25} length={2}
+               />
+             <ViroBox
+               position={[.707/10,0,-1.582/10]}
+               scale={[.1,.1,.1]}
+               rotation={[0, 315, 0]}
+               materials={'orange'}
+               physicsBody={{ type:'Static', restitution:0.75 }}
+               height={0.25} width={.25} length={2}
+               />
+               */}
 
 
             {/* A Single Ball we have spawned in our scene */}
@@ -174,7 +181,7 @@ var ARCarDemo = createReactClass({
                           physicsBody={this.ballProperties}
                           viroTag="BallTag"
                           onClick={this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined}
-                          onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{} : undefined}/>
+                          onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{this.ballProperties.useGravity= true} : undefined}/>
 
 
 
