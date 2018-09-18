@@ -99,15 +99,15 @@ var ARCarDemo = createReactClass({
 
              <ViroBox
                position={[0,0,0]}
-               scale={[.05,.05,.05]}
+               scale={[.1,.1,.1]}
                rotation={[90, 90, 90]}
                materials={'orange'}
                physicsBody={{ type:'Static', restitution:0.75 }}
                height={0.25} width={.25} length={2}
                />
              <ViroBox
-               position={[-1.582/20,.707/20,0]}
-               scale={[.05,.05,.05]}
+               position={[-1.582/10,.707/10,0]}
+               scale={[.1,.1,.1]}
                rotation={[90, 90, 45]}
                materials={'orange'}
                physicsBody={{ type:'Static', restitution:0.75 }}
@@ -116,8 +116,8 @@ var ARCarDemo = createReactClass({
 
 
              <ViroBox
-               position={[-2.29/20,2.29/20,0]}
-               scale={[.05,.05,.05]}
+               position={[-2.29/10,2.29/10,0]}
+               scale={[.1,.1,.1]}
                rotation={[90, 90, 0]}
                materials={'orange'}
                physicsBody={{ type:'Static', restitution:0.75 }}
@@ -125,8 +125,8 @@ var ARCarDemo = createReactClass({
                />
 
              <ViroBox
-               position={[-1.582/20,3.871/20,0]}
-               scale={[.05,.05,.05]}
+               position={[-1.582/10,3.871/10,0]}
+               scale={[.1,.1,.1]}
                rotation={[90, 90, 135]}
                materials={'orange'}
                physicsBody={{ type:'Static', restitution:0.75 }}
@@ -134,8 +134,8 @@ var ARCarDemo = createReactClass({
                />
 
              <ViroBox
-               position={[0,4.578/20,0]}
-               scale={[.05,.05,.05]}
+               position={[0,4.578/10,0]}
+               scale={[.1,.1,.1]}
                rotation={[90, 90, 90]}
                materials={'orange'}
                physicsBody={{ type:'Static', restitution:0.75 }}
@@ -143,8 +143,8 @@ var ARCarDemo = createReactClass({
                />
 
              <ViroBox
-               position={[1.582/20,3.871/20,0]}
-               scale={[.05,.05,.05]}
+               position={[1.582/10,3.871/10,0]}
+               scale={[.1,.1,.1]}
                rotation={[90, 90, 225]}
                materials={'orange'}
                physicsBody={{ type:'Static', restitution:0.75 }}
@@ -152,16 +152,16 @@ var ARCarDemo = createReactClass({
                />
 
              <ViroBox
-               position={[2.29/20,2.29/20,0]}
-               scale={[.05,.05,.05]}
+               position={[2.29/10,2.29/10,0]}
+               scale={[.1,.1,.1]}
                rotation={[90, 90, 180]}
                materials={'orange'}
                physicsBody={{ type:'Static', restitution:0.75 }}
                height={0.25} width={.25} length={2}
                />
              <ViroBox
-               position={[1.582/20,.707/20,0]}
-               scale={[.05,.05,.05]}
+               position={[1.582/10,.707/10,0]}
+               scale={[.1,.1,.1]}
                rotation={[90, 90, 315]}
                materials={'orange'}
                physicsBody={{ type:'Static', restitution:0.75 }}
