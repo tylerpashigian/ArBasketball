@@ -6,6 +6,7 @@ import {StyleSheet} from 'react-native';
 
 import {
   ViroARScene,
+  ViroCamera,
   ViroMaterials,
   ViroNode,
   ViroAnimations,
@@ -49,7 +50,9 @@ var ARCarDemo = createReactClass({
 
         <ViroLightingEnvironment source={require('./res/tesla/garage_1k.hdr')}/>
 
+        {/*
         <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
+        */}
 
           {/* A Tesla Model Object
           <Viro3DObject
@@ -63,6 +66,7 @@ var ARCarDemo = createReactClass({
             animation={{name:"scaleCar", run:this.state.animateCar,}} />
            */}
 
+           {/*
           <ViroSpotLight
             innerAngle={5}
             outerAngle={25}
@@ -74,8 +78,9 @@ var ARCarDemo = createReactClass({
             shadowNearZ={2}
             shadowFarZ={7}
             shadowOpacity={.7} />
+            */}
 
-            {/* Box representing the backboard. */}
+            {/* Box representing the backboard.
             <ViroBox
               rotation={[90, 0, 90]}
               position={[0,0,-.1]}
@@ -84,7 +89,7 @@ var ARCarDemo = createReactClass({
               physicsBody={{ type:'Static', restitution:0.25 }}
               height={1} width={.25} length={2}
               />
-
+              */}
 
             {/* Hoop representing basketball hoop on 3D printed object.
             <Viro3DObject
@@ -97,6 +102,7 @@ var ARCarDemo = createReactClass({
                 type="OBJ"/>
              */}
 
+             {/*
              <ViroBox
                position={[0,0,0]}
                scale={[.05,.05,.05]}
@@ -167,29 +173,50 @@ var ARCarDemo = createReactClass({
                physicsBody={{ type:'Static', restitution:0.75 }}
                height={0.25} width={.25} length={2}
                />
+               */}
+
+               {/* A Single Ball we have spawned in our scene */}
+
+               <ViroCamera
+                   position={[0, 0, 0]}
+                   rotation={[45, 0, 0]}
+                   active={true}>
+                 <Viro3DObject ref={(obj)=>{this.ball = obj}}
+                              source={require('./res/physics/object_basketball_pbr.vrx')}
+                              scale={[0.5, 0.5, 0.5]}
+                              position={[0, 0, -1]}
+                              rotation={[0, 0, 0]}
+                              resources={[require('./res/physics/blinn1_Base_Color.png'),
+                                          require('./res/physics/blinn1_Metallic.png'),
+                                          require('./res/physics/blinn1_Roughness.png'),
+                                          require('./res/physics/blinn1_Normal_OpenGL.png')]}
+                              type="VRX"
+                              physicsBody={this.ballProperties}
+                              viroTag="BallTag"
+                              onClick={this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined}
+                              onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{this.ballProperties.useGravity= true} : undefined}
+                              onTouch={this._onTouch}/>
+                </ViroCamera>
 
 
-            {/* A Single Ball we have spawned in our scene */}
-            <Viro3DObject ref={(obj)=>{this.ball = obj}}
-                          source={require('./res/physics/object_basketball_pbr.vrx')}
-                          scale={[0.5, 0.5, 0.5]}
-                          position={[0, 0, 0]}
-                          rotation={[0, 0, 0]}
-                          resources={[require('./res/physics/blinn1_Base_Color.png'),
-                                      require('./res/physics/blinn1_Metallic.png'),
-                                      require('./res/physics/blinn1_Roughness.png'),
-                                      require('./res/physics/blinn1_Normal_OpenGL.png')]}
-                          type="VRX"
-                          physicsBody={this.ballProperties}
-                          viroTag="BallTag"
-                          onClick={this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined}
-                          onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{this.ballProperties.useGravity= true} : undefined}/>
 
+            {/*</ViroARImageMarker>*/}
 
-
-        </ViroARImageMarker>
       </ViroARScene>
     );
+  },
+
+  _onTouch(state, touchPos, source)  {
+   var touchX = touchPos[0];
+   var touchY = touchPos[1];
+    if(state == 1) {
+        // Touch Down
+        console.log("Touched the ball");
+    } else if(state == 2) {
+        // Touch Down Move
+    } else if(state == 3) {
+        // Touch Up
+    }
   },
   _onAnchorFound() {
 
