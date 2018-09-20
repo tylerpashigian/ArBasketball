@@ -193,9 +193,8 @@ var ARCarDemo = createReactClass({
                               type="VRX"
                               physicsBody={this.ballProperties}
                               viroTag="BallTag"
-                              onClick={this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined}
-                              onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{this.ballProperties.useGravity= true} : undefined}
-                              onTouch={this._onTouch}/>
+                              onClick={this._onClick}
+                              onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{this.ballProperties.useGravity= true} : undefined}/>
                 </ViroCamera>
 
 
@@ -206,17 +205,11 @@ var ARCarDemo = createReactClass({
     );
   },
 
-  _onTouch(state, touchPos, source)  {
-   var touchX = touchPos[0];
-   var touchY = touchPos[1];
-    if(state == 1) {
-        // Touch Down
-        console.log("Touched the ball");
-    } else if(state == 2) {
-        // Touch Down Move
-    } else if(state == 3) {
-        // Touch Up
-    }
+  _onClick(source) {
+    console.log("We just Clicked the image!");
+    this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined;
+    this.ball.setNativeProps({"useGravity":true});
+    console.log(this.ballProperties);
   },
   _onAnchorFound() {
 
