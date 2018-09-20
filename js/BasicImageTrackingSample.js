@@ -25,11 +25,13 @@ var CONTROLLER_PUSH = 1;
 var CONTROLLER_GRIP = 2;
 var CONTROLLER_PULL = 3;
 
-var ARCarDemo = createReactClass({
+var ARBasketBallDemo = createReactClass({
   getInitialState() {
     this.ballProperties = {friction:0.6, type:'Dynamic', mass:4, enabled:true, useGravity:false, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
     return {
       controllerConfig:CONTROLLER_GRIP,
+      activeCamera:true,
+      foundPlane:false,
       texture: "white",
       playAnim: false,
       animateCar: false,
@@ -46,13 +48,13 @@ var ARCarDemo = createReactClass({
     console.log(this.ballProperties);
 
     return (
-      <ViroARScene physicsWorld={{ gravity:[0,0,-9.81], drawBounds:this.state.showCollisionBox }} ref={(component)=>{this.sceneRef = component}}>
+      <ViroARScene physicsWorld={{ gravity:[0,-9.81,0], drawBounds:this.state.showCollisionBox }} ref={(component)=>{this.sceneRef = component}}>
 
-        <ViroLightingEnvironment source={require('./res/tesla/garage_1k.hdr')}/>
+        <ViroLightingEnvironment source={require('./res/physics/ibl_envr.hdr')}/>
 
-        {/*
+        {/**/}
         <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
-        */}
+
 
           {/* A Tesla Model Object
           <Viro3DObject
@@ -66,7 +68,7 @@ var ARCarDemo = createReactClass({
             animation={{name:"scaleCar", run:this.state.animateCar,}} />
            */}
 
-           {/*
+           {/**/}
           <ViroSpotLight
             innerAngle={5}
             outerAngle={25}
@@ -78,9 +80,9 @@ var ARCarDemo = createReactClass({
             shadowNearZ={2}
             shadowFarZ={7}
             shadowOpacity={.7} />
-            */}
 
-            {/* Box representing the backboard.
+
+            {/* Box representing the backboard.*/}
             <ViroBox
               rotation={[90, 0, 90]}
               position={[0,0,-.1]}
@@ -89,20 +91,22 @@ var ARCarDemo = createReactClass({
               physicsBody={{ type:'Static', restitution:0.25 }}
               height={1} width={.25} length={2}
               />
-              */}
+
+
 
             {/* Hoop representing basketball hoop on 3D printed object.
             <Viro3DObject
                 source={require("./res/physics/untitled.obj")}
                 resources={[require('./res/physics/untitled.mtl'),]}
                 highAccuracyEvents={true}
-                position={[0, 0, 0]}
+                position={[0, 90, 0]}
                 scale={[.2, .2, .2]}
                 rotation={[0, 0, 0]}
                 type="OBJ"/>
-             */}
+            */}
 
-             {/*
+
+             {/**/}
              <ViroBox
                position={[0,0,0]}
                scale={[.05,.05,.05]}
@@ -119,8 +123,6 @@ var ARCarDemo = createReactClass({
                physicsBody={{ type:'Static', restitution:0.75 }}
                height={0.25} width={.25} length={2}
                />
-
-
              <ViroBox
                position={[-2.29/20,2.29/20,0]}
                scale={[.05,.05,.05]}
@@ -129,7 +131,6 @@ var ARCarDemo = createReactClass({
                physicsBody={{ type:'Static', restitution:0.75 }}
                height={0.25} width={.25} length={2}
                />
-
              <ViroBox
                position={[-1.582/20,3.871/20,0]}
                scale={[.05,.05,.05]}
@@ -138,7 +139,6 @@ var ARCarDemo = createReactClass({
                physicsBody={{ type:'Static', restitution:0.75 }}
                height={0.25} width={.25} length={2}
                />
-
              <ViroBox
                position={[0,4.578/20,0]}
                scale={[.05,.05,.05]}
@@ -147,7 +147,6 @@ var ARCarDemo = createReactClass({
                physicsBody={{ type:'Static', restitution:0.75 }}
                height={0.25} width={.25} length={2}
                />
-
              <ViroBox
                position={[1.582/20,3.871/20,0]}
                scale={[.05,.05,.05]}
@@ -156,7 +155,6 @@ var ARCarDemo = createReactClass({
                physicsBody={{ type:'Static', restitution:0.75 }}
                height={0.25} width={.25} length={2}
                />
-
              <ViroBox
                position={[2.29/20,2.29/20,0]}
                scale={[.05,.05,.05]}
@@ -173,14 +171,17 @@ var ARCarDemo = createReactClass({
                physicsBody={{ type:'Static', restitution:0.75 }}
                height={0.25} width={.25} length={2}
                />
-               */}
 
-               {/* A Single Ball we have spawned in our scene */}
 
-               <ViroCamera
-                   position={[0, 0, 0]}
-                   rotation={[45, 0, 0]}
-                   active={true}>
+             {/**/}
+             </ViroARImageMarker>
+
+
+             {/* A Single Ball we have spawned in our scene
+             <ViroCamera
+                 position={[0, 0, 0]}
+                 rotation={[0, 0, 0]}
+                 active={true}>
                  <Viro3DObject ref={(obj)=>{this.ball = obj}}
                               source={require('./res/physics/object_basketball_pbr.vrx')}
                               scale={[0.5, 0.5, 0.5]}
@@ -194,21 +195,51 @@ var ARCarDemo = createReactClass({
                               physicsBody={this.ballProperties}
                               viroTag="BallTag"
                               onClick={this._onClick}
-                              onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{this.ballProperties.useGravity= true} : undefined}/>
-                </ViroCamera>
+                              onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{} : undefined}/>
+              </ViroCamera>
+              */}
+
+              {/* A Single Ball we have spawned in our scene */}
+              {this._displayBall()}
 
 
 
-            {/*</ViroARImageMarker>*/}
 
       </ViroARScene>
     );
   },
-
+  _displayBall() {
+    if (this.state.foundPlane != true){
+      return;
+    }
+    return(
+      <ViroCamera
+          position={[0, 0, 0]}
+          rotation={[0, 0, 0]}
+          active={true}>
+      <Viro3DObject ref={(obj)=>{this.ball = obj}}
+                   source={require('./res/physics/object_basketball_pbr.vrx')}
+                   scale={[0.2, 0.2, 0.2]}
+                   position={[0, 0, -1]}
+                   rotation={[0, 0, 0]}
+                   resources={[require('./res/physics/blinn1_Base_Color.png'),
+                               require('./res/physics/blinn1_Metallic.png'),
+                               require('./res/physics/blinn1_Roughness.png'),
+                               require('./res/physics/blinn1_Normal_OpenGL.png')]}
+                   type="VRX"
+                   physicsBody={this.ballProperties}
+                   viroTag="BallTag"
+                   onClick={this._onClick}
+                   onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{} : undefined}/>
+       </ViroCamera>
+    )
+  },
   _onClick(source) {
-    console.log("We just Clicked the image!");
+    console.log("We just Clicked the ball!");
     this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined;
     this.ball.setNativeProps({"useGravity":true});
+    var phyzProps = {type:'Dynamic', mass:4, enabled:true, useGravity:true, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
+    this.ball.setNativeProps({"physicsBody":phyzProps});
     console.log(this.ballProperties);
   },
   _onAnchorFound() {
@@ -216,6 +247,7 @@ var ARCarDemo = createReactClass({
     console.log("Anchor found");
 
     this.setState({
+      foundPlane: true,
       animateCar: true,
       pauseUpdates: true,
     })
@@ -224,36 +256,6 @@ var ARCarDemo = createReactClass({
     this.setState({
       animName: (this.state.animName == "scaleUp" ? "scaleDown" : "scaleUp"),
       playAnim: true
-    })
-  },
-  _selectWhite(){
-    this.setState({
-      texture : "white",
-      tapWhite: true
-    })
-  },
-  _selectBlue(){
-    this.setState({
-      texture : "blue",
-      tapBlue: true
-    })
-  },
-  _selectGrey(){
-    this.setState({
-      texture : "grey",
-      tapGrey: true
-    })
-  },
-  _selectRed(){
-    this.setState({
-      texture : "red",
-      tapRed: true
-    })
-  },
-  _selectYellow(){
-    this.setState({
-      texture : "yellow",
-      tapYellow: true
     })
   },
   _animateFinished(){
@@ -314,61 +316,11 @@ ViroMaterials.createMaterials({
   ground: {
     diffuseColor: "#007CB6E6"
   },
-  white: {
-    lightingModel: "PBR",
-    diffuseTexture: require('./res/tesla/object_car_main_Base_Color.png'),
-    metalnessTexture: require('./res/tesla/object_car_main_Metallic.png'),
-    roughnessTexture: require('./res/tesla/object_car_main_Roughness.png'),
-  },
   whiteBox: {
     diffuseColor: "#FFFFFF"
   },
   orange: {
     diffuseColor: "#ff8d00"
-  },
-  blue: {
-    lightingModel: "PBR",
-    diffuseTexture: require('./res/tesla/object_car_main_Base_Color_blue.png'),
-    metalnessTexture: require('./res/tesla/object_car_main_Metallic.png'),
-    roughnessTexture: require('./res/tesla/object_car_main_Roughness.png'),
-  },
-  grey: {
-    lightingModel: "PBR",
-    diffuseTexture: require('./res/tesla/object_car_main_Base_Color_grey.png'),
-    metalnessTexture: require('./res/tesla/object_car_main_Metallic.png'),
-    roughnessTexture: require('./res/tesla/object_car_main_Roughness.png'),
-  },
-  red: {
-    lightingModel: "PBR",
-    diffuseTexture: require('./res/tesla/object_car_main_Base_Color_red.png'),
-    metalnessTexture: require('./res/tesla/object_car_main_Metallic.png'),
-    roughnessTexture: require('./res/tesla/object_car_main_Roughness.png'),
-  },
-  yellow: {
-    lightingModel: "PBR",
-    diffuseTexture: require('./res/tesla/object_car_main_Base_Color_yellow.png'),
-    metalnessTexture: require('./res/tesla/object_car_main_Metallic.png'),
-    roughnessTexture: require('./res/tesla/object_car_main_Roughness.png'),
-  },
-  white_sphere: {
-    lightingModel: "PBR",
-    diffuseColor: "rgb(231,231,231)",
-  },
-  blue_sphere: {
-    lightingModel: "PBR",
-    diffuseColor: "rgb(19,42,143)",
-  },
-  grey_sphere: {
-    lightingModel: "PBR",
-    diffuseColor: "rgb(75,76,79)",
-  },
-  red_sphere: {
-    lightingModel: "PBR",
-    diffuseColor: "rgb(168,0,0)",
-  },
-  yellow_sphere: {
-    lightingModel: "PBR",
-    diffuseColor: "rgb(200,142,31)",
   },
 });
 
@@ -394,4 +346,4 @@ ViroAnimations.registerAnimations({
     tapAnimation:[["scaleSphereUp", "scaleSphereDown"],]
 });
 
-module.exports = ARCarDemo;
+module.exports = ARBasketBallDemo;
