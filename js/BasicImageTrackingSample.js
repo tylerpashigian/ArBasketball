@@ -206,7 +206,7 @@ var ARCarDemo = createReactClass({
   },
 
   _onClick(source) {
-    console.log("We just Clicked the image!");
+    console.log("Clicked the ball");
     this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined;
     this.ball.setNativeProps({"useGravity":true});
     console.log(this.ballProperties);
