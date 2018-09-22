@@ -235,11 +235,7 @@ var ARBasketBallDemo = createReactClass({
     )
   },
   _onClick(source) {
-<<<<<<< HEAD
     console.log("Clicked the ball");
-=======
-    console.log("We just Clicked the ball!");
->>>>>>> b2a334da8fba0ec25a8957d4a90fab9107880c14
     this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined;
     this.ball.setNativeProps({"useGravity":true});
     var phyzProps = {type:'Dynamic', mass:4, enabled:true, useGravity:true, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
