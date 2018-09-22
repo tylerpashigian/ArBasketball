@@ -31,7 +31,7 @@ var ARBasketBallDemo = createReactClass({
     return {
       controllerConfig:CONTROLLER_GRIP,
       activeCamera:true,
-      foundPlane:false,
+      foundPlane:true,
       texture: "white",
       playAnim: false,
       animateCar: false,
@@ -52,9 +52,8 @@ var ARBasketBallDemo = createReactClass({
 
         <ViroLightingEnvironment source={require('./res/physics/ibl_envr.hdr')}/>
 
-        {/**/}
-        <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
-
+        {/*
+        <ViroARImageMarker target={"logo"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>*/}
 
           {/* A Tesla Model Object
           <Viro3DObject
@@ -68,7 +67,7 @@ var ARBasketBallDemo = createReactClass({
             animation={{name:"scaleCar", run:this.state.animateCar,}} />
            */}
 
-           {/**/}
+           {/*
           <ViroSpotLight
             innerAngle={5}
             outerAngle={25}
@@ -79,20 +78,7 @@ var ARBasketBallDemo = createReactClass({
             shadowMapSize={2048}
             shadowNearZ={2}
             shadowFarZ={7}
-            shadowOpacity={.7} />
-
-
-            {/* Box representing the backboard.*/}
-            <ViroBox
-              rotation={[90, 0, 90]}
-              position={[0,0,-.1]}
-              scale={[.3,.3,.3]}
-              materials={'whiteBox'}
-              physicsBody={{ type:'Static', restitution:0.25 }}
-              height={1} width={.25} length={2}
-              />
-
-
+            shadowOpacity={.7} />*/}
 
             {/* Hoop representing basketball hoop on 3D printed object.
             <Viro3DObject
@@ -105,8 +91,18 @@ var ARBasketBallDemo = createReactClass({
                 type="OBJ"/>
             */}
 
+             {/* Box representing the backboard.
+             <ViroBox
+               rotation={[90, 0, 90]}
+               position={[0,0,-.1]}
+               scale={[.3,.3,.3]}
+               materials={'whiteBox'}
+               physicsBody={{ type:'Static', restitution:0.25 }}
+               height={1} width={.25} length={2}
+               />*/}
 
-             {/**/}
+
+             {/*  Boxes representing the hoop
              <ViroBox
                position={[0,0,0]}
                scale={[.05,.05,.05]}
@@ -170,18 +166,13 @@ var ARBasketBallDemo = createReactClass({
                materials={'orange'}
                physicsBody={{ type:'Static', restitution:0.75 }}
                height={0.25} width={.25} length={2}
-               />
+               />*/}
 
 
-             {/**/}
-             </ViroARImageMarker>
-
+             {/*
+             </ViroARImageMarker>*/}
 
              {/* A Single Ball we have spawned in our scene
-             <ViroCamera
-                 position={[0, 0, 0]}
-                 rotation={[0, 0, 0]}
-                 active={true}>
                  <Viro3DObject ref={(obj)=>{this.ball = obj}}
                               source={require('./res/physics/object_basketball_pbr.vrx')}
                               scale={[0.5, 0.5, 0.5]}
@@ -195,15 +186,10 @@ var ARBasketBallDemo = createReactClass({
                               physicsBody={this.ballProperties}
                               viroTag="BallTag"
                               onClick={this._onClick}
-                              onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{} : undefined}/>
-              </ViroCamera>
-              */}
+                              onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{} : undefined}/>*/}
 
-              {/* A Single Ball we have spawned in our scene */}
+              {/* A Single Ball we have spawned in our scene*/}
               {this._displayBall()}
-
-
-
 
       </ViroARScene>
     );
@@ -215,12 +201,12 @@ var ARBasketBallDemo = createReactClass({
     return(
       <ViroCamera
           position={[0, 0, 0]}
-          rotation={[0, 0, 0]}
+          rotation={[45, 0, 0]}
           active={true}>
       <Viro3DObject ref={(obj)=>{this.ball = obj}}
                    source={require('./res/physics/object_basketball_pbr.vrx')}
                    scale={[0.2, 0.2, 0.2]}
-                   position={[0, 0, -1]}
+                   position={[0, 0, -.3]}
                    rotation={[0, 0, 0]}
                    resources={[require('./res/physics/blinn1_Base_Color.png'),
                                require('./res/physics/blinn1_Metallic.png'),
