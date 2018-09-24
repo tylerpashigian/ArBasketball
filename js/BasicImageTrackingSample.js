@@ -5,19 +5,20 @@ import React, { Component } from 'react';
 import {StyleSheet} from 'react-native';
 
 import {
+  Viro3DObject,
+  ViroAmbientLight,
+  ViroAnimations,
+  ViroARImageMarker,
   ViroARScene,
+  ViroARTrackingTargets,
+  ViroBox,
   ViroCamera,
+  ViroLightingEnvironment,
   ViroMaterials,
   ViroNode,
-  ViroAnimations,
-  Viro3DObject,
-  ViroLightingEnvironment,
-  ViroARImageMarker,
-  ViroARTrackingTargets,
   ViroSphere,
   ViroSpotLight,
   ViroQuad,
-  ViroBox,
 } from 'react-viro';
 
 var createReactClass = require('create-react-class');
@@ -46,10 +47,11 @@ var ARBasketBallDemo = createReactClass({
   render: function() {
 
     console.log(this.ballProperties);
+    this.ballProperties = {friction:0.6, type:'Dynamic', mass:4, enabled:true, useGravity:false, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
 
     return (
       <ViroARScene physicsWorld={{ gravity:[0,-9.81,0], drawBounds:this.state.showCollisionBox }} ref={(component)=>{this.sceneRef = component}}>
-
+        <ViroAmbientLight color={"#FFFFFF"} intensity={10}/>
         <ViroLightingEnvironment source={require('./res/physics/ibl_envr.hdr')}/>
 
         {/*
@@ -199,25 +201,20 @@ var ARBasketBallDemo = createReactClass({
       return;
     }
     return(
-      <ViroCamera
-          position={[0, 0, 0]}
-          rotation={[45, 0, 0]}
-          active={true}>
       <Viro3DObject ref={(obj)=>{this.ball = obj}}
-                   source={require('./res/physics/object_basketball_pbr.vrx')}
-                   scale={[0.2, 0.2, 0.2]}
-                   position={[0, 0, -.3]}
-                   rotation={[0, 0, 0]}
-                   resources={[require('./res/physics/blinn1_Base_Color.png'),
-                               require('./res/physics/blinn1_Metallic.png'),
-                               require('./res/physics/blinn1_Roughness.png'),
-                               require('./res/physics/blinn1_Normal_OpenGL.png')]}
-                   type="VRX"
-                   physicsBody={this.ballProperties}
-                   viroTag="BallTag"
-                   onClick={this._onClick}
-                   onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{} : undefined}/>
-       </ViroCamera>
+                    source={require('./res/physics/object_basketball_pbr.vrx')}
+                    scale={[0.5, 0.5, 0.5]}
+                    position={[0, 0, -1.0]}
+                    rotation={[0, 0, 0]}
+                    resources={[require('./res/physics/blinn1_Base_Color.png'),
+                                require('./res/physics/blinn1_Metallic.png'),
+                                require('./res/physics/blinn1_Roughness.png'),
+                                require('./res/physics/blinn1_Normal_OpenGL.png')]}
+                    type="VRX"
+                    physicsBody={this.ballProperties}
+                    viroTag="BallTag"
+                    onClick={this._onClick}
+                    onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{} : undefined}/>
     )
   },
   _onClick(source) {
@@ -226,7 +223,6 @@ var ARBasketBallDemo = createReactClass({
     this.ball.setNativeProps({"useGravity":true});
     var phyzProps = {type:'Dynamic', mass:4, enabled:true, useGravity:true, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
     this.ball.setNativeProps({"physicsBody":phyzProps});
-    console.log(this.ballProperties);
   },
   _onAnchorFound() {
 
