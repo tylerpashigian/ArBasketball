@@ -84,7 +84,7 @@ var ARBasketBallDemo = createReactClass({
             shadowFarZ={7}
             shadowOpacity={.7} />*/}
 
-          {/* Hoop representing basketball hoop on 3D printed object. */}
+          {/* Hoop representing basketball hoop on 3D printed object.
           <Viro3DObject
             source={require("./res/physics/untitled.obj")}
             resources={[require('./res/physics/untitled.mtl'),]}
@@ -93,6 +93,7 @@ var ARBasketBallDemo = createReactClass({
             scale={[.2, .2, .2]}
             rotation={[0, 0, 0]}
             type="OBJ"/>
+          */}
 
           <ViroNode position={[0, 0, -1]} transformBehaviors={["billboardX", "billboardY"]}>
             <ViroFlexView style={{flexDirection: 'column'}} width={0.5} height={0.4} materials="hud_text_bg" position={[0,0,0]} onClick={this._resetScene}>
@@ -239,7 +240,7 @@ var ARBasketBallDemo = createReactClass({
     // Reset the ball to it's default position.
     TimerMixin.setTimeout(() => {
         this.ball.setNativeProps({"physicsBody":null});
-        this.ball.setNativeProps({"position":[0, 0, -1]});
+        this.ball.setNativeProps({"position":[0, 0, -0.3]});
         {/*this.floorSurface.setNativeProps({materials:["ground"]});*/}
 
         TimerMixin.setTimeout(() => {
