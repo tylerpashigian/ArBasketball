@@ -50,7 +50,7 @@ var BasicARPhysicsSample = createReactClass({
     console.log("Constructor");
     return (
 
-      <ViroARScene physicsWorld={{ gravity:[0,-9.81,0], drawBounds:this.state.showCollisionBox }} ref={(component)=>{this.sceneRef = component}}>
+      <ViroARScene physicsWorld={{ gravity:[0,-9.81,0], drawBounds:true }} ref={(component)=>{this.sceneRef = component}}>
         <ViroAmbientLight color={"#FFFFFF"} intensity={10}/>
         <ViroLightingEnvironment source={require('./res/physics/ibl_envr.hdr')}/>
 

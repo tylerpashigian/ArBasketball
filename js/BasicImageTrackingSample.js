@@ -47,10 +47,10 @@ var ARBasketBallDemo = createReactClass({
   render: function() {
 
     console.log(this.ballProperties);
-    this.ballProperties = {friction:0.6, type:'Dynamic', mass:4, enabled:true, useGravity:false, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
+    this.ballProperties = {friction:0.6, type:'Dynamic', mass:4, enabled:true, useGravity:false, shape:{type:'Sphere', params:[0.05]}, restitution:0.65};
 
     return (
-      <ViroARScene physicsWorld={{ gravity:[0,-9.81,0], drawBounds:true }} ref={(component)=>{this.sceneRef = component}}>
+      <ViroARScene physicsWorld={{ gravity:[0,-9.81/2,0], drawBounds:false }} ref={(component)=>{this.sceneRef = component}}>
         <ViroAmbientLight color={"#FFFFFF"} intensity={10}/>
         <ViroLightingEnvironment source={require('./res/physics/ibl_envr.hdr')}/>
 
@@ -69,7 +69,7 @@ var ARBasketBallDemo = createReactClass({
             animation={{name:"scaleCar", run:this.state.animateCar,}} />
            */}
 
-           {/**/}
+           {/*
           <ViroSpotLight
             innerAngle={5}
             outerAngle={25}
@@ -80,7 +80,7 @@ var ARBasketBallDemo = createReactClass({
             shadowMapSize={2048}
             shadowNearZ={2}
             shadowFarZ={7}
-            shadowOpacity={.7} />
+            shadowOpacity={.7} />*/}
 
             {/* Hoop representing basketball hoop on 3D printed object.
             <Viro3DObject
@@ -92,15 +92,15 @@ var ARBasketBallDemo = createReactClass({
                 rotation={[0, 0, 0]}
                 type="OBJ"/>*/}
 
-             {/* Box representing the backboard.
+             {/* Box representing the backboard.*/}
              <ViroBox
                rotation={[90, 0, 90]}
                position={[0,0,-.1]}
                scale={[.3,.3,.3]}
                materials={'whiteBox'}
                physicsBody={{ type:'Static', restitution:0.25 }}
-               height={1} width={.25} length={2}
-               />*/}
+               height={1} width={.25/3} length={2}
+               />
 
              {/*  Boxes representing the hoop */}
              <ViroBox
@@ -201,7 +201,7 @@ var ARBasketBallDemo = createReactClass({
     return(
       <Viro3DObject ref={(obj)=>{this.ball = obj}}
                     source={require('./res/physics/object_basketball_pbr.vrx')}
-                    scale={[0.15, 0.15, 0.15]}
+                    scale={[0.25, 0.25, 0.25]}
                     position={[0, 0, -0.3]}
                     rotation={[0, 0, 0]}
                     resources={[require('./res/physics/blinn1_Base_Color.png'),
@@ -216,10 +216,10 @@ var ARBasketBallDemo = createReactClass({
     )
   },
   _onClick(source) {
-    console.log("Clicked the ball");
+    console.log("Controller config: " + this.state.controllerConfig);
     this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined;
     this.ball.setNativeProps({"useGravity":true});
-    var phyzProps = {type:'Dynamic', mass:4, enabled:true, useGravity:true, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
+    var phyzProps = {type:'Dynamic', mass:4, enabled:true, useGravity:true, shape:{type:'Sphere', params:[0.05]}, restitution:0.65};
     this.ball.setNativeProps({"physicsBody":phyzProps});
   },
   _onAnchorFound() {

@@ -45,7 +45,7 @@ var BasicARPhysicsSample = createReactClass({
 
   render: function() {
     return (
-     <ViroARScene physicsWorld={{ gravity:[0,-9.81,0], drawBounds:this.state.showCollisionBox }} ref={(component)=>{this.sceneRef = component}}>
+     <ViroARScene physicsWorld={{ gravity:[0,-9.81/2,0], drawBounds:this.state.showCollisionBox }} ref={(component)=>{this.sceneRef = component}}>
       <ViroAmbientLight color={"#FFFFFF"} intensity={10}/>
       <ViroLightingEnvironment source={require('./res/physics/ibl_envr.hdr')}/>
 
@@ -111,11 +111,20 @@ var BasicARPhysicsSample = createReactClass({
                       onClick={this._onClick}
                       onDrag={this.state.controllerConfig == CONTROLLER_GRIP ? ()=>{} : undefined}/>
 
+      {/* Render cube object in the scene, if any.*/}
+      {this._renderCubes()}
+
+      {/* Quad representing the ground. */}
+      <ViroQuad position={[0,0,0]} scale={[6.0, 8.0, 1.0]} rotation={[-90, 0, 0]} physicsBody={{ type:'Static', restitution:0.75 }}
+        onClickState={this.state.controllerConfig == CONTROLLER_PULL ? this.onItemPullForce("Surface") : undefined}
+        ref={(component)=>{this.floorSurface = component}} onCollision={this._onFloorCollide} materials={'ground'}/>
+
       </ViroNode>
     );
   },
 
   _onClick(){
+    console.log("Controller config: " + this.state.controllerConfig);
     this.state.controllerConfig == CONTROLLER_PUSH ? this.onItemPushImpulse("BallTag") : undefined;
     this.ball.setNativeProps({"useGravity":true});
     var phyzProps = {type:'Dynamic', mass:4, enabled:true, useGravity:true, shape:{type:'Sphere', params:[0.14]}, restitution:0.65};
