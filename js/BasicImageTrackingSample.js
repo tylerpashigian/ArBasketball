@@ -95,7 +95,7 @@ var ARBasketBallDemo = createReactClass({
             type="OBJ"/>
           */}
 
-          <ViroNode position={[0, 0, -1]} transformBehaviors={["billboardX", "billboardY"]}>
+          <ViroNode position={[0, -1, -1]} transformBehaviors={["billboardX", "billboardY"]}>
             <ViroFlexView style={{flexDirection: 'column'}} width={0.5} height={0.4} materials="hud_text_bg" position={[0,0,0]} onClick={this._resetScene}>
               <ViroText style={styles.hud_text}  text={ "Reset Scene"} />
             </ViroFlexView>
